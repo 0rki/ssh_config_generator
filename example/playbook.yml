@@ -1,0 +1,28 @@
+- hosts: localhost
+  roles:
+    - ssh_config_generator
+  vars:
+    ssh_hosts:
+      - name: "db-bastion"
+        hostname: "bastion.db.example.com"
+        user: "jump-admin"
+        identity_file: "~/.ssh/db_bastion_ed25519"
+        port: 2222
+        options:
+          - "ControlPersist 1h"
+  
+      - name: "database-server"
+        hostname: "db01.internal"
+        user: "dbadmin"
+        identity_file: "~/.ssh/db_key"
+        proxy_jump: "db-bastion"
+        options:
+          - "ServerAliveInterval 30"
+
+      - name: "deep-server"
+        hostname: "app.internal"
+        proxy_jump: "db-bastion,bastion2"  # Comma-separated hop list
+
+      - name: "legacy-server"
+        hostname: "legacy.example.com"
+        proxy_command: "ssh -W %h:%p db-bastion"

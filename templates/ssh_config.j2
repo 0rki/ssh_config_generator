@@ -1,0 +1,17 @@
+# Ansible Managed - {{ ansible_managed }}
+# SSH Configuration for {{ inventory_hostname }}
+# Generated on {{ ansible_date_time.iso8601 }}
+
+{% for host in ssh_hosts %}
+# Configuration for {{ host.name }}
+Host {{ host.name }}
+  HostName {{ host.hostname }}
+  {% if host.user is defined %}User {{ host.user }}
+  {% endif %}{% if host.port is defined %}Port {{ host.port }}
+  {% endif %}{% if host.identity_file is defined %}IdentityFile {{ host.identity_file }}
+  {% endif %}{% if host.proxy_jump is defined %}ProxyJump {{ host.proxy_jump }}
+  {% endif %}{% if host.proxy_command is defined %}ProxyCommand {{ host.proxy_command }}
+  {% endif %}{% if host.options is defined %}{% for option in host.options -%}
+  {{ option }}{{ '\n' }}{{'  '}}{% endfor %}
+  {% endif %}
+{% endfor %}

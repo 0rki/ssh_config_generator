@@ -4,7 +4,7 @@
   vars:
     ansible_connection: local
     ansible_user: "{{ lookup('env', 'USER') }}"
-    ssh_config_file: "~/.ssh/config"
+    ssh_config_file: "~/.ssh/config1"
 
     ssh_hosts:
       - name: "db-bastion"

@@ -2,6 +2,10 @@
   roles:
     - ssh_config_generator
   vars:
+    ansible_connection: local
+    ansible_user: "{{ lookup('env', 'USER') }}"
+    ssh_config_file: "~/.ssh/config"
+
     ssh_hosts:
       - name: "db-bastion"
         hostname: "bastion.db.example.com"
@@ -10,7 +14,7 @@
         port: 2222
         options:
           - "ControlPersist 1h"
-  
+
       - name: "database-server"
         hostname: "db01.internal"
         user: "dbadmin"

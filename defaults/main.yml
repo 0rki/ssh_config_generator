@@ -1,31 +1,5 @@
 ---
-
 ssh_config_file: "~/.ssh/config1"
 ssh_config_mode: "0600"
 ssh_config_owner: "{{ ansible_user }}"
 ssh_config_group: "{{ ansible_user }}"
-
-ssh_hosts:
-  - name: "production-server"
-    hostname: "app1.prod.example.com"
-    user: "deploy"
-    identity_file: "~/.ssh/prod_key"
-    port: 22
-    proxy_jump: "bastion-prod"  # Reference to bastion host definition
-    options:
-      - "StrictHostKeyChecking accept-new"
-      - "ForwardAgent yes"
-      
-  - name: "bastion-prod"  # Bastion host definition
-    hostname: "bastion.prod.example.com"
-    user: "jump-user"
-    identity_file: "~/.ssh/bastion_key"
-    port: 2222
-    options:
-      - "ControlMaster auto"
-      - "ControlPath ~/.ssh/cm-%r@%h:%p"
-      
-  - name: "github"
-    hostname: "github.com"
-    user: "git"
-    identity_file: "~/.ssh/github_key"
